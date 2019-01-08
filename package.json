@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "build-gh": "cross-env NODE_ENV=prodoction && next build && next export",
-    "deploy-gh": "push-dir --dir=out --branch=gh-pages"
+    "deploy-gh": "push-dir --dir=out --branch=gh-pages",
+    "publish-gh": "npm run build-gh && npm run deploy-gh"
   },
   "author": "Dapper Design",
   "license": "ISC",
