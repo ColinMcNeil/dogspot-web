@@ -1,0 +1,21 @@
+{
+  "name": "dogspot-web",
+  "version": "1.0.0",
+  "description": "Web client for dogspot app",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "Dapper Design",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow-models/mobilenet": "^0.2.2",
+    "@tensorflow/tfjs": "^0.14.1",
+    "lodash": "^4.17.11",
+    "next": "^7.0.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  }
+}
