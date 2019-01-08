@@ -7,7 +7,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "build-gh": "cross-env NODE_ENV=prodoction && next build && next export",
+    "build-gh": "cross-env NODE_ENV=prodoction && next build && next export && cpx .nojekyll out",
     "deploy-gh": "push-dir --dir=out --branch=gh-pages",
     "publish-gh": "npm run build-gh && npm run deploy-gh"
   },
@@ -21,6 +21,7 @@
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
+    "cpx": "^1.5.0",
     "cross-env": "^5.2.0"
   }
 }
