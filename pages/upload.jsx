@@ -5,9 +5,8 @@ class Upload extends React.Component {
   constructor() {
     super()
     this.model = new mobilenet()
-    this.state = { name: 'Derp', file: null, status:'Loading', predictions:[]}
+    this.state = { name: 'Derp', file: null, status:'Loading Neural Network', predictions:[]}
     this.img = React.createRef();
-
     this.handleChange = this.handleChange.bind(this)
   }
   handleChange(event) {
@@ -23,12 +22,13 @@ class Upload extends React.Component {
     });
   }
   async componentDidMount() {
-    if(localStorage.getItem('mobilenet')){
+    if (localStorage.getItem('mobilenet')) {
+      this.setState({status: 'Loading from saved model'})
       await this.model.load('indexeddb://mobilenet')
       this.setState({status: this.model.status})
     }
     else {
-      console.log('No model, downloading...')
+      this.setState({ status: 'Downloading model...(<1MB)' })
       await this.model.load();
       const saved = await this.model.save('indexeddb://mobilenet');
       localStorage.setItem('mobilenet', 'saved')
@@ -52,40 +52,60 @@ class Upload extends React.Component {
             
             : this.model.status}
         </div>
-        <img src={this.state.file} ref={this.img} />
-        <div className="guesses">
-          {this.state.predictions.map(prediction => (
-            <p>{prediction.className} | {Math.floor(prediction.probability*100)}%</p>
-          ))}
+        {this.state.file ? <img src={this.state.file} ref={this.img} />:''}
+        {this.state.file ? <div className="guesses">
+          {
+            this.state.predictions
+              .filter(prediction => prediction.probability > 0.1)
+              .map(prediction => (
+                <div>
+                  <p>
+                    <h4>Breed:</h4>
+                    {prediction.className}
+                  </p>
+                  <p>
+                    <h4>Probability:</h4>
+                    {' ' + Math.floor(prediction.probability * 100)} %
+                  </p>
+                </div>
+              )
+              )
+          }
         </div>
+        : ''}
           
         <style jsx>{`
           .container{
             display: flex;
-            text-align: center;
             flex-wrap:wrap;
             padding: 1em;
+            justify-content: center;
+            align-items:center;
           }
-          .container  *{
-            flex-basis: 33%;
+          .container > *{
+            flex-basis: 25%;
+            margin: 20px;
+            min-width: 200px;
           }
           
-          img {
-            width: auto;
-            margin: auto;
+          h4 {
+            margin: 5px  0;
+          }
+          .uploader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1em;
+            height: 50vh;
           }
           #file-upload{
             display: none;
           }
           .custom-file-upload {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,  -50%);
             transition: ease 0.2s all;
           }
           .left {
-            left: 10%;
+            height: auto;
           }
         `}
         </style>

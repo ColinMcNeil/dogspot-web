@@ -1,35 +1,65 @@
 import Link from 'next/link'
 import Page from '../layouts/main'
-const names = ['doggo', 'pupper', 'dog', 'pupperoni', 'pup']
+const names = ['Doggo', 'Pupper', 'Dog', 'Pupperoni', 'Pup']
+const siteKey = 'J3kaznhTYdYEkk0no7RRP5orjzIrt5L2'
 class Index extends React.Component {
   constructor() {
     super()
-    const index = Math.floor(Math.random()*names.length) 
-    this.state = {text:names[index]}
+    const index = Math.floor(Math.random() * names.length) 
+    this.state = { text: names[index] }
   }
-render = () => 
-  <Page>
-    <div className="container">
-      <h1>Welcome to DogSpot</h1>
-      <Link href='/upload'><button>New {this.state.text}</button></Link>
-    </div>
-    <style jsx>{`
-      .container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction:column;
-        align-items: center;
-        justify-content: center;
+  componentDidMount=()=> {
+    const script = document.createElement("script");
+    script.src = "https://authedmine.com/lib/captcha.min.js";
+    script.async = true;
+    document.body.appendChild(script);
 
+    const script2 = document.createElement("script");
+    script2.innerHTML = "function captchaCallback(){localStorage.setItem('captcha', 'done');window.location.reload(false); }";
+    script2.async = true;
+    document.body.appendChild(script2);
+
+    const captcha = localStorage.getItem('captcha')
+    this.setState({ captcha })
+  }
+  render = () => 
+    <Page>
+      <div className="container">
+        <h1>Welcome to DogSpot</h1>
+        <p>
+          DogSpot by <a href="https://colinmcneil.me/" target="_blank" noopener="true">Colin McNeil</a>&nbsp;
+          is a simple webapp to identify dog breeds. It utilizes MobileNet,
+          a neural network developed by TensorFlow and Google.
+        </p>
+        {this.state.captcha ?
+          <Link href='/upload'><button>Upload New {this.state.text}</button></Link> :
+          <div className="coinhive-captcha" data-hashes="512" data-key={siteKey} data-callback="captchaCallback">
+            <em>
+              Loading Captcha...<br />
+              If it doesn't load, please disable Adblock!
+		      </em>
+          </div>
+        }
         
-      }
-      
-    `}
-    </style>
+       
+      </div>
+      <style jsx>{`
+        .container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction:column;
+          align-items: center;
+          justify-content: center;
+        }
+        p {
+          max-width: 600px;
+        }
+      `}
+      </style>
     </Page>
 }
   
