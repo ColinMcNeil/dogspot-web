@@ -31,7 +31,7 @@ class Index extends React.Component {
         <h1>Welcome to DogSpot</h1>
         <p>
           DogSpot by <a href="https://colinmcneil.me/" target="_blank" noopener="true">Colin McNeil</a>&nbsp;
-          is a simple webapp to identify dog breeds. It utilizes MobileNet,
+          is a simple webapp to identify dog breeds. It utilizes <a href="https://ai.googleblog.com/2017/06/mobilenets-open-source-models-for.html" target="blank" noopener="true">MobileNet</a>,
           a neural network developed by TensorFlow and Google.
         </p>
         {this.state.captcha || this.state.time<1 ?
