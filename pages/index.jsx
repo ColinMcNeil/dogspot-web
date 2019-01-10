@@ -6,7 +6,7 @@ class Index extends React.Component {
   constructor() {
     super()
     const index = Math.floor(Math.random() * names.length) 
-    this.state = { text: names[index] }
+    this.state = { text: names[index], time: 10}
   }
   componentDidMount=()=> {
     const script = document.createElement("script");
@@ -21,6 +21,9 @@ class Index extends React.Component {
 
     const captcha = localStorage.getItem('captcha')
     this.setState({ captcha })
+    setInterval(() => {
+      this.setState({time: this.state.time - 1})
+    }, 1000);
   }
   render = () => 
     <Page>
@@ -31,12 +34,13 @@ class Index extends React.Component {
           is a simple webapp to identify dog breeds. It utilizes MobileNet,
           a neural network developed by TensorFlow and Google.
         </p>
-        {this.state.captcha ?
+        {this.state.captcha || this.state.time<1 ?
           <Link href='/upload'><button>Upload New {this.state.text}</button></Link> :
-          <div className="coinhive-captcha" data-hashes="512" data-key={siteKey} data-callback="captchaCallback">
+          <div className="coinhive-captcha" data-hashes="256" data-key={siteKey} data-callback="captchaCallback">
             <em>
               Loading Captcha...<br />
               If it doesn't load, please disable Adblock!
+              (or click <Link href='/upload'>here</Link>)
 		      </em>
           </div>
         }
