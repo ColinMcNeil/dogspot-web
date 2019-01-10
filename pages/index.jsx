@@ -40,7 +40,7 @@ class Index extends React.Component {
             <em>
               Loading Captcha...<br />
               If it doesn't load, please disable Adblock!
-              (or click <Link href='/upload'>here</Link>)
+              (or wait {this.state.time})
 		      </em>
           </div>
         }
